@@ -594,7 +594,7 @@ const alchemy = new Alchemy(settings);
 }
 
 export async function getServerSideProps() {
-  const res = await fetch('https://market-dapp.vercel.app/api/keyvault').then(
+  const res = await fetch(process.env.NEXT_PUBLIC_API_SERVER).then(
     (response) => response.json()
   );
 
