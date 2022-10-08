@@ -8,7 +8,7 @@ import Head from "next/head";
 import type { AppProps } from "next/app";
 import React, { useState } from "react";
 // import ContextApi from '../context/contextApi'
-import { StyledEngineProvider } from "@mui/material";
+// import { StyledEngineProvider } from "@mui/material";
 // import CssBaseline from '@mui/material/CssBaseline'
 import { InjectedConnector } from "wagmi/connectors/injected";
 import "@rainbow-me/rainbowkit/styles.css";
@@ -60,6 +60,7 @@ function MyApp({ Component, pageProps }: AppProps) {
   //   setNetwork(null);
   // };
   return (
+    <NextUIProvider theme={darkThemes}>
     <WagmiConfig client={wagmiClient}>
       <RainbowKitProvider
         showRecentTransactions={true}
@@ -74,18 +75,18 @@ function MyApp({ Component, pageProps }: AppProps) {
         modalSize="compact"
         chains={chains}
       >
-        <StyledEngineProvider injectFirst>
-         <NextUIProvider theme={darkThemes}>
+        {/* <StyledEngineProvider injectFirst> */}
           {/* <CssBaseline /> */}
           <Head>
             <title>Sticky Gum</title>
             {/* <meta name="viewport" content="initial-scale" /> */}
           </Head>
           <Component {...pageProps} />
-          </NextUIProvider>
-        </StyledEngineProvider>
+        {/* </StyledEngineProvider> */}
       </RainbowKitProvider>
     </WagmiConfig>
+    </NextUIProvider>
+
   );
 }
 

@@ -31,7 +31,7 @@ import {
 } from "wagmi";
 import { InjectedConnector } from "wagmi/connectors/injected";
 import { ConnectButton } from "@rainbow-me/rainbowkit";
-export default function Home() {
+export default function Home(props) {
   const { isConnected, address } = useAccount();
   const { data: signer, isError, isLoading } = useSigner();
   const { visible, setVisible } = useModal();
@@ -45,13 +45,14 @@ export default function Home() {
   const [tdec, getToDec] = useState([]);
   const [holdup, setHold] = useState("");
   const [alert, setAlert] = useState(false);
-  const config = {
-    apiKey: "Yd4yXGXZK9z2YOpkIirm60QPElEgSx5Z",
+  const settings = {
+    apiKey: props.res.apikeyAlch ,
     network: Network.ETH_MAINNET,
-  };
-  const alchemy = new Alchemy(config);
+};
 
-  var zeroxapi = "https://api.0x.org";
+const alchemy = new Alchemy(settings);  
+
+  var zeroxapi = "https://api.0x.org" ;
 
   useEffect(() => {}, [getFromLogo, getFromName, getFromAddr, getFromDec]);
 
@@ -62,7 +63,7 @@ export default function Home() {
       getPrice();
     }, 1000);
     return () => clearTimeout(delayDebounce);
-  }, [holdup]);
+  }, [ holdup ,faddr,taddr]);
 
   // alchemy.nft.getNftsForOwner('0x3b23c3873BBb97757337B68CAEC7bB46ba2b3613').then('ali');
   let currentTrade = {};
@@ -86,7 +87,7 @@ export default function Home() {
   };
 
   async function listFromTokens() {
-    let response = await fetch("http://localhost:3000//api/tokens");
+    let response = await fetch("https://ss-wap-dapp.vercel.app/api/tokens");
     let tokenListJSON = await response.json();
     var tokens = tokenListJSON.tokens;
     let parent = document.getElementById("token_list");
@@ -127,7 +128,7 @@ export default function Home() {
   };
 
   async function listToTokens() {
-    let response = await fetch("/api/tokens");
+    let response = await fetch("https://ss-wap-dapp.vercel.app/api/tokens");
     let tokenListJson = await response.json();
     var tokens = tokenListJson.tokens;
     let parent = document.getElementById("token_list");
@@ -161,7 +162,7 @@ export default function Home() {
     getToLogo(toLogo);
     getToAddr(toAddr);
     getToDec(toDec);
-    // displayBalance();
+    displayBalance();
   }
   function changeToken() {
       getToName(fname);
@@ -177,12 +178,12 @@ export default function Home() {
   async function displayBalance(){
     const tokenContractAddresses = [faddr];
     const data = await alchemy.core.getTokenBalances(
-      `${address}`,
+      address,
       tokenContractAddresses
     )
     data.tokenBalances.find(item => {
       let rawbalance = parseInt(item.tokenBalance, 16).toString()
-      let formatbalance = Number(web3.utils.fromWei(rawbalance))
+      let formatbalance = Number(Web3.utils.fromWei(rawbalance))
       let balance = formatbalance.toFixed(2);
       if (item.tokenBalance === '0x0000000000000000000000000000000000000000000000000000000000000000') {
         document.getElementById("get_balance").innerHTML = '0.00'
@@ -590,4 +591,14 @@ export default function Home() {
       </Row>
     </Grid.Container>
   );
+}
+
+export async function getServerSideProps() {
+  const res = await fetch('https://market-dapp.vercel.app/api/keyvault').then(
+    (response) => response.json()
+  );
+
+  return {
+    props: { res }
+  };
 }
