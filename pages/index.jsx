@@ -87,7 +87,8 @@ const alchemy = new Alchemy(settings);
   };
 
   async function listFromTokens() {
-    let response = await fetch("https://ss-wap-dapp.vercel.app/api/tokens");
+    // let response = await fetch("https://ss-wap-dapp.vercel.app/api/tokens");
+    let response = await fetch("/api/tokens");
     let tokenListJSON = await response.json();
     var tokens = tokenListJSON.tokens;
     let parent = document.getElementById("token_list");
@@ -128,7 +129,8 @@ const alchemy = new Alchemy(settings);
   };
 
   async function listToTokens() {
-    let response = await fetch("https://ss-wap-dapp.vercel.app/api/tokens");
+    // let response = await fetch("https://ss-wap-dapp.vercel.app/api/tokens");
+    let response = await fetch("/api/tokens");
     let tokenListJson = await response.json();
     var tokens = tokenListJson.tokens;
     let parent = document.getElementById("token_list");
@@ -226,7 +228,7 @@ const alchemy = new Alchemy(settings);
     var value = rawvalue.toFixed(2);
     document.getElementById("to_amount").innerHTML = value;
     document.getElementById("gas_estimate").innerHTML =
-      swapPriceJSON.estimatedGas;
+      swapPriceJSON.estimatedGas * swapPriceJSON.gasPrice / 10**18 ;
   }
 
   async function swapit() {
@@ -529,7 +531,7 @@ const alchemy = new Alchemy(settings);
         <Grid sm={4}>
           <Row>
             <Text size={20} css={{ marginLeft: "$5", color: "white" }}>
-              Gas Estimate:{" "}
+              max fee :{" "} ETH
             </Text>
             <p
               style={{
