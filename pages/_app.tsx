@@ -1,7 +1,7 @@
 //swap added
 import { NextUIProvider } from '@nextui-org/react';
 import { createTheme } from "@nextui-org/react";
-
+import Link from 'next/link';
 import "../styles/global.css";
 import { ethers } from "ethers";
 import Head from "next/head";
@@ -80,6 +80,7 @@ function MyApp({ Component, pageProps }: AppProps) {
           <Head>
             <title>Sticky Gum</title>
             {/* <meta name="viewport" content="initial-scale" /> */}
+            <link rel='manifest' href='/manifest.json' />
           </Head>
           <Component {...pageProps} />
         {/* </StyledEngineProvider> */}
