@@ -531,7 +531,7 @@ const alchemy = new Alchemy(settings);
         <Grid sm={4}>
           <Row>
             <Text size={20} css={{ marginLeft: "$5", color: "white" }}>
-              max fee :{" "} ETH
+              max fee(ETH) :{" "} 
             </Text>
             <p
               style={{
